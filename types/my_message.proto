@@ -1,0 +1,9 @@
+syntax = 'proto2';
+
+package types;
+
+message MyMessage {
+  required bytes Address = 1;
+  required bytes Hash = 2;
+  required bytes Code = 3;
+}
