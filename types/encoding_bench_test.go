@@ -115,9 +115,9 @@ func BenchmarkETHRLPTinyEncode(b *testing.B) {
 	msg := buildTinyMessage()
 
 	for i := 0; i < b.N; i++ {
-		msgBytes := new(bytes.Buffer)
+		msgBuff := new(bytes.Buffer)
 
-		err := rlp.Encode(msgBytes, msg)
+		err := rlp.Encode(msgBuff, msg)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -128,9 +128,51 @@ func BenchmarkETHRLPLargeEncode(b *testing.B) {
 	msg := buildLargeMessage()
 
 	for i := 0; i < b.N; i++ {
-		msgBytes := new(bytes.Buffer)
+		msgBuff := new(bytes.Buffer)
 
-		err := rlp.Encode(msgBytes, msg)
+		err := rlp.Encode(msgBuff, msg)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkETHRLPTinyDecode(b *testing.B) {
+	msg := buildTinyMessage()
+	msgBuff := new(bytes.Buffer)
+
+	err := rlp.Encode(msgBuff, msg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	msgBytes := msgBuff.Bytes()
+
+	for i := 0; i < b.N; i++ {
+		decMsg := &types.MyMessage{}
+
+		err := rlp.DecodeBytes(msgBytes, decMsg)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkETHRLPLargeDecode(b *testing.B) {
+	msg := buildLargeMessage()
+	msgBuff := new(bytes.Buffer)
+
+	err := rlp.Encode(msgBuff, msg)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	msgBytes := msgBuff.Bytes()
+
+	for i := 0; i < b.N; i++ {
+		decMsg := &types.MyMessage{}
+
+		err := rlp.DecodeBytes(msgBytes, decMsg)
 		if err != nil {
 			log.Fatal(err)
 		}
