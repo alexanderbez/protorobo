@@ -7,6 +7,12 @@ Serialization is done against a simple type, `MyMessage`, containing a few byte
 slice fields representing different properties that could be common in a
 blockchain implementation.
 
+The Protocol Buffer compilation used the
+[gogo protobuf](https://github.com/gogo/protobuf) `gogofaster` binary. This
+provides a series of optimizations over the standard Golang Protocol Buffer
+binary. See [here](https://github.com/gogo/protobuf/blob/master/extensions.md) for
+further details.
+
 ```go
 type MyMessage struct {
 	Address []byte 
